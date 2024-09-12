@@ -32,5 +32,19 @@ namespace SchoolWebApi.src.Controller
             return Ok(res);
 
         }
+
+        [HttpPost]
+        public async Task<ActionResult<StudentDto>> CreateAsync([FromBody] SchoolCreateDto input)
+        {
+            var res = await _service.AddAsync(input);
+            return Ok(res);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync([FromRoute] int id)
+        {
+            var res = await _service.DeleteAsync(id);
+            return res? NoContent() : NotFound();
+        }
     }
 }

@@ -31,5 +31,18 @@ namespace SchoolWebApi.src.Service
             var schoolDto = new SchoolDto(res);
             return schoolDto;
         }
+
+        public async Task<SchoolDto?> AddAsync(SchoolCreateDto input)
+        {
+            var res = await _repo.Create(input);
+            var schoolDto = new SchoolDto(res);
+            return schoolDto;
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var res = await _repo.Delete(id);
+            return res;
+        }
     }
 }

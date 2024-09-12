@@ -19,6 +19,10 @@ namespace SchoolWebApi.src.Data
         {
             base.OnModelCreating(mb);
 
+            mb.Entity<School>()
+                .HasIndex(s => s.Name)
+                .IsUnique();
+
             mb.Entity<Student>()
                 .HasOne(s => s.School)
                 .WithMany(sc => sc.Students)

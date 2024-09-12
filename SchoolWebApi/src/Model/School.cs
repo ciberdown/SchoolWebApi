@@ -1,8 +1,9 @@
-﻿namespace SchoolWebApi.src.Model
+﻿using SchoolWebApi.src.Dto;
+
+namespace SchoolWebApi.src.Model
 {
-    public class School
+    public class School : FullAuditDto<int>
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string? Description { get; set; }
 
@@ -13,6 +14,7 @@
         {
             Name = name;
             Description = description;
+            CreationTime = DateTime.Now;
         }
     }
 }
