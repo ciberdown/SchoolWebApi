@@ -6,7 +6,6 @@
         public int SchoolId { get; set; }
         public string? Description { get; set; }
         public int? Age { get; set; }
-        public DateTime CreationTime { get; set; }
 
         public StudentCreateDto(string name, int schoolId, string? description, int? age)
         {
@@ -14,7 +13,6 @@
             SchoolId = schoolId;
             Description = description;
             Age = age;
-            CreationTime = DateTime.Now;
         }
     }
 }

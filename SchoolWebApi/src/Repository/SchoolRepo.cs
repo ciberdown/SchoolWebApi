@@ -35,7 +35,7 @@ namespace SchoolWebApi.src.Repository
 
         public async Task<School?> Create(SchoolCreateDto input)
         {
-            var school = new School(input.Name, input.Description, input.CreationTime);
+            var school = new School(input.Name, input.Description, DateTime.Now);
             var founded = await _context.Schools.FirstOrDefaultAsync(s => s.Name == input.Name);
             if (founded != null)
                 throw new Exception("school with this name exists!");
