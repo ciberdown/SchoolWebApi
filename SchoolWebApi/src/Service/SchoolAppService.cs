@@ -16,8 +16,7 @@ namespace SchoolWebApi.src.Service
 
         public async Task<PagedResultDto<SchoolDto>> GetAsync(BaseInputDto input)
         {
-            var res = _repo.Get();
-            var schools = await res.ToListAsync();
+            var schools = await _repo.Get().ToListAsync();
             var schoolDtos = schools.Select(s => new SchoolDto(s));
             var pagedResultDto = new PagedResultDto<SchoolDto>(schoolDtos, input);
             return pagedResultDto;

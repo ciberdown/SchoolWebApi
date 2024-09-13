@@ -1,5 +1,4 @@
-﻿using SchoolWebApi.src.Dto;
-using SchoolWebApi.src.Dto.School;
+﻿using SchoolWebApi.src.Dto.School;
 using SchoolWebApi.src.Model;
 
 namespace SchoolWebApi.src.Repository

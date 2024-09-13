@@ -2,7 +2,7 @@
 
 namespace SchoolWebApi.src.Dto.School
 {
-    public class StudentDto
+    public class SchoolStudentDto
     {
         public int Id { get; set; }
         public string StudentName { get; set; }
@@ -10,7 +10,7 @@ namespace SchoolWebApi.src.Dto.School
         public int? Age { get; set; }
     }
 
-    public class CourseDto
+    public class SchoolCourseDto
     {
         public int Id { get; set; }
         public string CourseName { get; set; }
@@ -23,8 +23,8 @@ namespace SchoolWebApi.src.Dto.School
         public string Name { get; set; }
         public string? Description { get; set; }
 
-        public IEnumerable<StudentDto>? Students { get; set; }
-        public IEnumerable<CourseDto>? Courses { get; set; }
+        public IEnumerable<SchoolStudentDto>? Students { get; set; }
+        public IEnumerable<SchoolCourseDto>? Courses { get; set; }
 
         public SchoolDto(Model.School school)
         {
@@ -34,7 +34,7 @@ namespace SchoolWebApi.src.Dto.School
             Description = school.Description;
             LastModificationTime = school.LastModificationTime;
             Students = school.Students?.Select(s =>
-                new StudentDto
+                new SchoolStudentDto
                 {
                     Id = s.Id,
                     StudentName = s.Name,
@@ -43,7 +43,7 @@ namespace SchoolWebApi.src.Dto.School
                 }
             );
             Courses = school.Courses?.Select(c =>
-                new CourseDto
+                new SchoolCourseDto
                 {
                     Id = c.Id,
                     CourseName = c.Name,

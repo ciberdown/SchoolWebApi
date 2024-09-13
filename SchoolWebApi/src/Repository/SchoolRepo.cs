@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolWebApi.src.Data;
-using SchoolWebApi.src.Dto;
 using SchoolWebApi.src.Dto.School;
 using SchoolWebApi.src.Model;
 
@@ -36,7 +35,7 @@ namespace SchoolWebApi.src.Repository
 
         public async Task<School?> Create(SchoolCreateDto input)
         {
-            var school = new School(input.Name, input.Description);
+            var school = new School(input.Name, input.Description, input.CreationTime);
             var founded = await _context.Schools.FirstOrDefaultAsync(s => s.Name == input.Name);
             if (founded != null)
                 throw new Exception("school with this name exists!");
@@ -65,7 +64,7 @@ namespace SchoolWebApi.src.Repository
                 founded.Name = input.Name;
             if(!string.IsNullOrWhiteSpace(input.Description))
                 founded.Description = input.Description;
-            founded.LastModificationTime = DateTime.Now;
+            founded.LastModificationTime = input.LastModificationTime;
 
             _context.Schools.Update(founded);
             await _context.SaveChangesAsync();

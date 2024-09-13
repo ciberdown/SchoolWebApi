@@ -11,8 +11,8 @@ using SchoolWebApi.src.Data;
 namespace SchoolWebApi.Migrations
 {
     [DbContext(typeof(SchoolDb))]
-    [Migration("20240913065138_AddLastModificationTimeToSchool")]
-    partial class AddLastModificationTimeToSchool
+    [Migration("20240913173314_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

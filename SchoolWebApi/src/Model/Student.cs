@@ -13,13 +13,14 @@ namespace SchoolWebApi.src.Model
 
         public IEnumerable<StudentCourse>? Courses { get; set; }
 
-        public Student(string name, string? description, int? age, int schoolId)
+        public Student(string name, int schoolId, string? description, int? age, DateTime creationTime, DateTime? lastModificationTime = null )
         {
             Name = name;
             Description = description;
             Age = age;
             SchoolId = schoolId;
-            CreationTime = DateTime.Now;
+            CreationTime = creationTime;
+            LastModificationTime = lastModificationTime;
         }
     }
 }

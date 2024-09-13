@@ -10,11 +10,11 @@ namespace SchoolWebApi.src.Model
         public IEnumerable<Student>? Students { get; set; }
         public IEnumerable<Course>? Courses { get; set; }
 
-        public School(string name, string? description, DateTime? lastModificationTime = null)
+        public School(string name, string? description,DateTime creationTime, DateTime? lastModificationTime = null)
         {
             Name = name;
             Description = description;
-            CreationTime = DateTime.Now;
+            CreationTime = creationTime;
             LastModificationTime = lastModificationTime;
         }
     }

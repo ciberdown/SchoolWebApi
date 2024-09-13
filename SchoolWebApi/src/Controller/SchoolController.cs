@@ -10,7 +10,6 @@ namespace SchoolWebApi.src.Controller
     public class SchoolController : ControllerBase
     {
         private ISchoolAppService _service { get; set; }
-
         public SchoolController(ISchoolAppService service)
         {
             _service = service;
@@ -24,7 +23,7 @@ namespace SchoolWebApi.src.Controller
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<StudentDto?>> GetByIdAsync([FromRoute] int id)
+        public async Task<ActionResult<SchoolDto>> GetByIdAsync([FromRoute] int id)
         {
             var res = await _service.GetByIdAsync(id);
             if (res == null)
@@ -34,7 +33,7 @@ namespace SchoolWebApi.src.Controller
         }
 
         [HttpPost]
-        public async Task<ActionResult<StudentDto>> CreateAsync([FromBody] SchoolCreateDto input)
+        public async Task<ActionResult<SchoolDto>> CreateAsync([FromBody] SchoolCreateDto input)
         {
             var res = await _service.AddAsync(input);
             return Ok(res);
@@ -48,7 +47,7 @@ namespace SchoolWebApi.src.Controller
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<StudentDto?>> UpdateAsync([FromBody] SchoolUpdateDto input,[FromRoute] int id)
+        public async Task<ActionResult<SchoolDto?>> UpdateAsync([FromBody] SchoolUpdateDto input,[FromRoute] int id)
         {
             var res = await _service.UpdateAsync(input, id);
             if(res == null)
