@@ -46,5 +46,14 @@ namespace SchoolWebApi.src.Controller
             var res = await _service.DeleteAsync(id);
             return res? NoContent() : NotFound();
         }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<StudentDto?>> UpdateAsync([FromBody] SchoolUpdateDto input,[FromRoute] int id)
+        {
+            var res = await _service.UpdateAsync(input, id);
+            if(res == null)
+                return NotFound();
+            return Ok(res);
+        }
     }
 }

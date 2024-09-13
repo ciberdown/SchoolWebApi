@@ -32,6 +32,7 @@ namespace SchoolWebApi.src.Dto.School
             CreationTime = school.CreationTime;
             Name = school.Name;
             Description = school.Description;
+            LastModificationTime = school.LastModificationTime;
             Students = school.Students?.Select(s =>
                 new StudentDto
                 {

@@ -54,5 +54,22 @@ namespace SchoolWebApi.src.Repository
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<School?> Update(SchoolUpdateDto input, int id)
+        {
+            var founded = await _context.Schools.FindAsync(id);
+            if (founded == null)
+                return null;
+
+            if(!string.IsNullOrWhiteSpace(input.Name))
+                founded.Name = input.Name;
+            if(!string.IsNullOrWhiteSpace(input.Description))
+                founded.Description = input.Description;
+            founded.LastModificationTime = DateTime.Now;
+
+            _context.Schools.Update(founded);
+            await _context.SaveChangesAsync();
+            return founded;
+        }
     }
 }

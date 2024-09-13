@@ -10,5 +10,6 @@ namespace SchoolWebApi.src.Repository
         public Task<School?> GetById(int id);
         public Task<School?> Create(SchoolCreateDto input);
         public Task<bool> Delete(int id);
+        public Task<School?> Update(SchoolUpdateDto input, int id);
     }
 }
