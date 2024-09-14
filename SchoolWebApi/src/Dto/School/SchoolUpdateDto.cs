@@ -9,13 +9,11 @@ namespace SchoolWebApi.src.Dto.School
 
         public string? Name { get; set; }
         public string? Description { get; set; }
-        public DateTime LastModificationTime { get; set; }
 
         public SchoolUpdateDto([Optional] string? name,[Optional] string? description)
         {
             Name = name;
             Description = description;
-            LastModificationTime = DateTime.Now;
         }
     }
 }

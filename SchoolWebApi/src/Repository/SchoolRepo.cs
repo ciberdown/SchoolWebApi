@@ -18,7 +18,6 @@ namespace SchoolWebApi.src.Repository
             var res = _context.Schools
                 .Include(s => s.Students)
                 .Include(s => s.Courses)
-                //.ThenInclude(c => c.School)
                 .AsQueryable();
             return res;
         }
@@ -28,7 +27,6 @@ namespace SchoolWebApi.src.Repository
             var res = await _context.Schools
                 .Include(s => s.Students)
                 .Include(s => s.Courses)
-                //.ThenInclude(c => c.School)
                 .FirstOrDefaultAsync(s => s.Id == id);
             return res;
         }
@@ -56,7 +54,10 @@ namespace SchoolWebApi.src.Repository
 
         public async Task<School?> Update(SchoolUpdateDto input, int id)
         {
-            var founded = await _context.Schools.FindAsync(id);
+            var founded = await _context.Schools
+                .Include(s => s.Students)
+                .Include(s => s.Courses)
+                .FirstOrDefaultAsync(s => s.Id == id);
             if (founded == null)
                 return null;
 
@@ -64,7 +65,7 @@ namespace SchoolWebApi.src.Repository
                 founded.Name = input.Name;
             if(!string.IsNullOrWhiteSpace(input.Description))
                 founded.Description = input.Description;
-            founded.LastModificationTime = input.LastModificationTime;
+            founded.LastModificationTime = DateTime.Now;
 
             _context.Schools.Update(founded);
             await _context.SaveChangesAsync();

@@ -55,7 +55,10 @@ namespace SchoolWebApi.src.Repository
 
         public async Task<Student?> UpdateAsync(StudentUpdateDto input, int id)
         {
-            var founded = await _context.Students.FindAsync(id);
+            var founded = await _context.Students
+                .Include(s => s.School)
+                .Include(s => s.Courses)
+                .FirstOrDefaultAsync(s => s.Id == id);
             if(founded == null)
                 return null;
             if (!String.IsNullOrWhiteSpace(input.Name))
@@ -71,7 +74,7 @@ namespace SchoolWebApi.src.Repository
                     throw new Exception("school with this id not found!");
                 founded.SchoolId = (int)input.SchoolId;
             }
-            founded.LastModificationTime = input.LastModificationTime;
+            founded.LastModificationTime = DateTime.Now;
 
             _context.Students.Update(founded);
             await _context.SaveChangesAsync();

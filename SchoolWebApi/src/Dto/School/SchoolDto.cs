@@ -16,7 +16,6 @@ namespace SchoolWebApi.src.Dto.School
         public string CourseName { get; set; }
         public string? Description { get; set; }
         public int SchoolId { get; set; }
-        public string SchoolName { get; set; }
     }
     public class SchoolDto : FullAuditDto<int>
     {

@@ -6,6 +6,7 @@ namespace SchoolWebApi.src.Dto.Student
         public int CourseId { get; set; }
         public string CourseName { get; set; }
         public string? CourseDescription { get; set; }
+        public int? Grade { get; set; }
     }
     public class StudentSchoolDto
     {
@@ -34,14 +35,15 @@ namespace SchoolWebApi.src.Dto.Student
             School = new StudentSchoolDto
             {
                 SchoolId = student.SchoolId,
-                SchoolDescription = student.School.Description,
-                SchoolName = student.School.Name
+                SchoolDescription = student.School?.Description,
+                SchoolName = student.School?.Name
             };
             Courses = student.Courses?.Select(sc => new StudentCourseDto
                 {
                     CourseId = sc.CourseId,
                     CourseName = sc.Course.Name,
-                    CourseDescription = sc.Course.Description
+                    CourseDescription = sc.Course.Description,
+                    Grade = sc.Grade
                 }
             );
         }
