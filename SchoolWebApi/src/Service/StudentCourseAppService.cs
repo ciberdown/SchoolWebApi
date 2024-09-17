@@ -39,7 +39,8 @@ namespace SchoolWebApi.src.Service
             var res = await _repo.Update(input, studentId, courseId);
             if (res == null)
                 return null;
-            var dto = new StudentCourseDto(res);
+            var created = await _repo.GetById(studentId, courseId);
+            var dto = new StudentCourseDto(created);
             return dto;
         }
 
@@ -48,7 +49,8 @@ namespace SchoolWebApi.src.Service
             var res = await _repo.Create(input);
             if (res == null)
                 return null;
-            var dto = new StudentCourseDto(res);
+            var created = await _repo.GetById(input.StudentId, input.CourseId);
+            var dto = new StudentCourseDto(created);
             return dto;
         }
     }

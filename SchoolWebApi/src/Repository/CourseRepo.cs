@@ -37,7 +37,7 @@ namespace SchoolWebApi.src.Repository
             if (foundedSchool == null)
                 throw new Exception("school with this id does not exists!");
             var course = new Course(input.Name, input.Description, input.SchoolId, DateTime.Now);
-            await _context.Courses.AddAsync(course);
+            var res = await _context.Courses.AddAsync(course);
             await _context.SaveChangesAsync();
             return course;
         }

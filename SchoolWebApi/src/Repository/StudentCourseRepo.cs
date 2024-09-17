@@ -82,8 +82,9 @@ namespace SchoolWebApi.src.Repository
             await FindCourse(input.CourseId, true);
 
             var newStudent = new StudentCourse(input.StudentId, input.CourseId, input.Grade, DateTime.Now);
-            await _context.StudentsCourses.AddAsync(newStudent);
+            var res = await _context.StudentsCourses.AddAsync(newStudent);
             await _context.SaveChangesAsync();
+
             return newStudent;
         }
 
