@@ -10,11 +10,16 @@
 
         public int? Grade { get; set; }
 
-        public StudentCourse(int studentId, int courseId, int? grade)
+        public DateTime CreationTime { get; set; }
+        public DateTime? LastModificationTime { get; set; }
+
+        public StudentCourse(int studentId, int courseId, int? grade, DateTime creationTime, DateTime? lastModificationTime = null)
         {
             StudentId = studentId;
             CourseId = courseId;
             Grade = grade;
+            CreationTime = creationTime;
+            LastModificationTime = lastModificationTime;
         }
     }
 }

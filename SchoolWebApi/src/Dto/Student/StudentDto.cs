@@ -1,7 +1,7 @@
 ﻿
 namespace SchoolWebApi.src.Dto.Student
 {
-    public class StudentCourseDto
+    public class StudentSCDto
     {
         public int CourseId { get; set; }
         public string CourseName { get; set; }
@@ -22,7 +22,7 @@ namespace SchoolWebApi.src.Dto.Student
 
         public StudentSchoolDto School { get; set; }
 
-        public IEnumerable<StudentCourseDto>? Courses { get; set; }
+        public IEnumerable<StudentSCDto>? Courses { get; set; }
 
         public StudentDto(Model.Student student)
         {
@@ -38,8 +38,8 @@ namespace SchoolWebApi.src.Dto.Student
                 SchoolDescription = student.School?.Description,
                 SchoolName = student.School?.Name
             };
-            Courses = student.Courses?.Select(sc => new StudentCourseDto
-                {
+            Courses = student.Courses?.Select(sc => new StudentSCDto
+            {
                     CourseId = sc.CourseId,
                     CourseName = sc.Course.Name,
                     CourseDescription = sc.Course.Description,

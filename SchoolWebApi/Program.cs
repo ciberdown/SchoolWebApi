@@ -21,6 +21,9 @@ builder.Services.AddScoped<IStudentAppService, StudentAppService>();
 builder.Services.AddScoped<ICourseRepo, CourseRepo>();
 builder.Services.AddScoped<ICourseAppService, CourseAppService>();
 
+builder.Services.AddScoped<IStudentCourseRepo, StudentCourseRepo>();
+builder.Services.AddScoped<IStudentCourseAppService, StudentCourseAppService>();
+
 builder.Services.AddDbContext<SchoolDb>(options =>
     options.UseSqlite("Data Source=MySchoolDatabase.db"));
 
