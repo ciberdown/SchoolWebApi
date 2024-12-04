@@ -18,6 +18,10 @@
         
         public StudentDto(Model.Student student)
         {
+            Id = student.Id;
+            isDeleted = student.isDeleted;
+            LastModificationTime = student.LastModificationTime;
+            CreationTime = student.CreationTime;
             Name = student.Name;
             if(student.School != null)
                 School = new StudentSchoolDto { 

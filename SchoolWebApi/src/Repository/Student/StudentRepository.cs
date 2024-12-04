@@ -74,6 +74,8 @@ namespace SchoolWebApi.src.Repository.Student
             if (!string.IsNullOrEmpty(input.Name))
                 foundedStudent.Name = input.Name;
 
+            foundedStudent.LastModificationTime = input.ModificationTime;
+
             _context.Students.Update(foundedStudent);
             await _context.SaveChangesAsync();
 
