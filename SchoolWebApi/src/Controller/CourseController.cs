@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SchoolWebApi.src.Interface.Course;
 
 namespace SchoolWebApi.src.Controller
 {
@@ -6,6 +7,14 @@ namespace SchoolWebApi.src.Controller
     [ApiController]
     public class CourseController : ControllerBase
     {
-       
+        private readonly ICourseAppService _service;
+
+        public CourseController(ICourseAppService service)
+        {
+            _service = service;
+        }
+
+
+
     }
 }
