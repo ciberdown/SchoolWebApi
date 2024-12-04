@@ -19,14 +19,11 @@ namespace SchoolWebApi.Migrations
 
             modelBuilder.Entity("SchoolWebApi.src.Model.Course", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("LastModificationTime")
@@ -36,26 +33,31 @@ namespace SchoolWebApi.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("SchoolId")
+                    b.Property<long?>("SchoolId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long?>("TeacherId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool?>("isDeleted")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.HasIndex("SchoolId");
 
+                    b.HasIndex("TeacherId");
+
                     b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("SchoolWebApi.src.Model.School", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("LastModificationTime")
@@ -64,6 +66,9 @@ namespace SchoolWebApi.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<bool?>("isDeleted")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -75,17 +80,11 @@ namespace SchoolWebApi.Migrations
 
             modelBuilder.Entity("SchoolWebApi.src.Model.Student", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("Age")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("LastModificationTime")
@@ -95,7 +94,10 @@ namespace SchoolWebApi.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("SchoolId")
+                    b.Property<long?>("SchoolId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool?>("isDeleted")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -107,10 +109,10 @@ namespace SchoolWebApi.Migrations
 
             modelBuilder.Entity("SchoolWebApi.src.Model.StudentCourse", b =>
                 {
-                    b.Property<int>("StudentId")
+                    b.Property<long>("StudentId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CourseId")
+                    b.Property<long>("CourseId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreationTime")
@@ -119,7 +121,10 @@ namespace SchoolWebApi.Migrations
                     b.Property<int?>("Grade")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime?>("LastModificationTime")
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ModificationTime")
                         .HasColumnType("TEXT");
 
                     b.HasKey("StudentId", "CourseId");
@@ -129,24 +134,55 @@ namespace SchoolWebApi.Migrations
                     b.ToTable("StudentsCourses");
                 });
 
+            modelBuilder.Entity("SchoolWebApi.src.Model.Teacher", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<long?>("SchoolId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool?>("isDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SchoolId");
+
+                    b.ToTable("Teachers");
+                });
+
             modelBuilder.Entity("SchoolWebApi.src.Model.Course", b =>
                 {
                     b.HasOne("SchoolWebApi.src.Model.School", "School")
                         .WithMany("Courses")
-                        .HasForeignKey("SchoolId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SchoolId");
+
+                    b.HasOne("SchoolWebApi.src.Model.Teacher", "Teacher")
+                        .WithMany("Courses")
+                        .HasForeignKey("TeacherId");
 
                     b.Navigation("School");
+
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("SchoolWebApi.src.Model.Student", b =>
                 {
                     b.HasOne("SchoolWebApi.src.Model.School", "School")
                         .WithMany("Students")
-                        .HasForeignKey("SchoolId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SchoolId");
 
                     b.Navigation("School");
                 });
@@ -170,6 +206,15 @@ namespace SchoolWebApi.Migrations
                     b.Navigation("Student");
                 });
 
+            modelBuilder.Entity("SchoolWebApi.src.Model.Teacher", b =>
+                {
+                    b.HasOne("SchoolWebApi.src.Model.School", "School")
+                        .WithMany("Teachers")
+                        .HasForeignKey("SchoolId");
+
+                    b.Navigation("School");
+                });
+
             modelBuilder.Entity("SchoolWebApi.src.Model.Course", b =>
                 {
                     b.Navigation("Students");
@@ -180,9 +225,16 @@ namespace SchoolWebApi.Migrations
                     b.Navigation("Courses");
 
                     b.Navigation("Students");
+
+                    b.Navigation("Teachers");
                 });
 
             modelBuilder.Entity("SchoolWebApi.src.Model.Student", b =>
+                {
+                    b.Navigation("Courses");
+                });
+
+            modelBuilder.Entity("SchoolWebApi.src.Model.Teacher", b =>
                 {
                     b.Navigation("Courses");
                 });

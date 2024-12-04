@@ -2,24 +2,25 @@
 
 namespace SchoolWebApi.src.Model
 {
-    public class Course : FullAuditDto<int>
+    public class Course : FullAuditDto<long>
     {
         public string Name { get; set; }
-        public string? Description { get; set; }
         
-        
-        public int SchoolId { get; set; }
-        public School School { get; set; }
+        public long? SchoolId { get; set; }
+        public School? School { get; private set; }
+
+        public long? TeacherId { get; set; }
+        public Teacher? Teacher { get; set; }
 
         public IEnumerable<StudentCourse>? Students { get; set; }
 
-        public Course(string name, string? description, int schoolId, DateTime creationTime, DateTime? lastModificationTime = null)
+        public Course(string name, long? schoolId, long? teacherId)
         {
             Name = name;
-            Description = description;
             SchoolId = schoolId;
-            CreationTime = creationTime;
-            LastModificationTime = lastModificationTime;
+            CreationTime = DateTime.Now;
+            TeacherId = teacherId;
         }
     }
+
 }

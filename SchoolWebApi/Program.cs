@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SchoolWebApi.src.Data;
-using SchoolWebApi.src.Repository;
-using SchoolWebApi.src.Service;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,21 +11,56 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<ISchoolRepo, SchoolRepo>();
-builder.Services.AddScoped<ISchoolAppService, SchoolAppService>();
 
-builder.Services.AddScoped<IStudentRepo, StudentRepo>();
-builder.Services.AddScoped<IStudentAppService, StudentAppService>();
-
-builder.Services.AddScoped<ICourseRepo, CourseRepo>();
-builder.Services.AddScoped<ICourseAppService, CourseAppService>();
-
-builder.Services.AddScoped<IStudentCourseRepo, StudentCourseRepo>();
-builder.Services.AddScoped<IStudentCourseAppService, StudentCourseAppService>();
-
+#region Configure-SQLite
 builder.Services.AddDbContext<SchoolDb>(options =>
-    options.UseSqlite("Data Source=MySchoolDatabase.db"));
+    options.UseSqlite("Data Source=schoolDb.db"));
+#endregion
 
+#region inject-services
+//builder.Services.AddScoped<ISchoolRepo, SchoolRepo>();
+//builder.Services.AddScoped<ISchoolAppService, SchoolAppService>();
+
+//builder.Services.AddScoped<IStudentRepo, StudentRepo>();
+//builder.Services.AddScoped<IStudentAppService, StudentAppService>();
+
+//builder.Services.AddScoped<ICourseRepo, CourseRepo>();
+//builder.Services.AddScoped<ICourseAppService, CourseAppService>();
+
+//builder.Services.AddScoped<IStudentCourseRepo, StudentCourseRepo>();
+//builder.Services.AddScoped<IStudentCourseAppService, StudentCourseAppService>();
+var assembly = Assembly.GetExecutingAssembly();
+
+// Register Repositories
+var repositories = assembly.GetTypes()
+    .Where(t => t.IsClass && !t.IsAbstract && t.Name.EndsWith("Repository"))
+    .Select(t => new
+    {
+        Interface = t.GetInterface($"I{t.Name}"), // Find corresponding interface
+        Implementation = t
+    })
+    .Where(t => t.Interface != null); // Ensure interface exists
+
+foreach (var repo in repositories)
+{
+    builder.Services.AddScoped(repo.Interface, repo.Implementation);
+}
+
+// Register AppServices
+var appServices = assembly.GetTypes()
+    .Where(t => t.IsClass && !t.IsAbstract && t.Name.EndsWith("AppService"))
+    .Select(t => new
+    {
+        Interface = t.GetInterface($"I{t.Name}"), // Find corresponding interface
+        Implementation = t
+    })
+    .Where(t => t.Interface != null); // Ensure interface exists
+
+foreach (var service in appServices)
+{
+    builder.Services.AddScoped(service.Interface, service.Implementation);
+}
+#endregion
 
 var app = builder.Build();
 

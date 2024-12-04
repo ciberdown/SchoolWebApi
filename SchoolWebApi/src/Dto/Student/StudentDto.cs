@@ -1,51 +1,34 @@
-﻿
-namespace SchoolWebApi.src.Dto.Student
+﻿namespace SchoolWebApi.src.Dto.Student
 {
-    public class StudentSCDto
-    {
-        public int CourseId { get; set; }
-        public string CourseName { get; set; }
-        public string? CourseDescription { get; set; }
-        public int? Grade { get; set; }
-    }
     public class StudentSchoolDto
     {
-        public int SchoolId { get; set; }
+        public long Id { get; set; }
         public string SchoolName { get; set; }
-        public string? SchoolDescription { get; set; }
     }
-    public class StudentDto : FullAuditDto<int>
+    public class StudentSCDto
+    {
+        public long Id { get; set; }
+        public string CourseName { get; set; }
+    }
+    public class StudentDto : FullAuditDto<long>
     {
         public string Name { get; set; }
-        public string? Description { get; set; }
-        public int? Age { get; set; }
-
         public StudentSchoolDto School { get; set; }
-
-        public IEnumerable<StudentSCDto>? Courses { get; set; }
-
+        public IEnumerable<StudentSCDto> Courses { get; set; }
+        
         public StudentDto(Model.Student student)
         {
-            Id = student.Id;
             Name = student.Name;
-            Description = student.Description;
-            Age = student.Age;
-            CreationTime = student.CreationTime;
-            LastModificationTime = student.LastModificationTime;
-            School = new StudentSchoolDto
-            {
-                SchoolId = student.SchoolId,
-                SchoolDescription = student.School?.Description,
-                SchoolName = student.School?.Name
-            };
-            Courses = student.Courses?.Select(sc => new StudentSCDto
-            {
-                    CourseId = sc.CourseId,
-                    CourseName = sc.Course.Name,
-                    CourseDescription = sc.Course.Description,
-                    Grade = sc.Grade
-                }
-            );
+            if(student.School != null)
+                School = new StudentSchoolDto { 
+                    Id = student.School.Id, 
+                    SchoolName = student.School.Name };
+            if(student.Courses != null)
+                Courses = student.Courses.Select(c => new StudentSCDto
+                {
+                    Id = c.CourseId,
+                    CourseName = c.Course.Name,
+                });
         }
     }
 }

@@ -2,18 +2,19 @@
 
 namespace SchoolWebApi.src.Model
 {
-    public class School : FullAuditDto<long>
+    public class Teacher: FullAuditDto<long>
     {
         public string Name { get; set; }
 
-        public IEnumerable<Student>? Students { get; set; }
         public IEnumerable<Course>? Courses { get; set; }
-        public IEnumerable<Teacher>? Teachers { get; set; }
+        
+        public long? SchoolId { get; set; }
+        public School School { get; set; }
 
-
-        public School(string name)
+        public Teacher(string name, long? schoolId)
         {
             Name = name;
+            SchoolId = schoolId;
             CreationTime = DateTime.Now;
         }
     }
