@@ -20,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="src\Dto\Course\" />
     <Folder Include="src\Dto\School\" />
     <Folder Include="src\Dto\StudentCourse\" />
   </ItemGroup>

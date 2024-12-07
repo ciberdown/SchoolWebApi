@@ -42,6 +42,7 @@ namespace SchoolWebApi.src.Repository.Student
         {
             var res = _context.Students
                 .Include(s => s.Courses)
+                .ThenInclude(c => c.Course)
                 .Include(s => s.School)
                 .AsQueryable();
             return res;
@@ -51,6 +52,7 @@ namespace SchoolWebApi.src.Repository.Student
         {
             var res = await _context.Students
                 .Include(s => s.Courses)
+                .ThenInclude(c => c.Course)
                 .Include(s => s.School)
                 .FirstOrDefaultAsync(x => x.Id == id);
             return res;
@@ -59,9 +61,7 @@ namespace SchoolWebApi.src.Repository.Student
         public async Task<Model.Student?> UpdateAsync(UpdateStudentDto input, long id)
         {
             var foundedStudent = await _context.Students
-                .Include(s => s.Courses)
-                .Include(s => s.School)
-                .FirstOrDefaultAsync(s => s.Id == id);
+                .FindAsync(id);
             if(foundedStudent == null)
                 return null ;
 
@@ -79,7 +79,7 @@ namespace SchoolWebApi.src.Repository.Student
             _context.Students.Update(foundedStudent);
             await _context.SaveChangesAsync();
 
-            return foundedStudent;
+            return await GetById(id);
         }
     }
 }
