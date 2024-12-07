@@ -47,7 +47,7 @@ namespace SchoolWebApi.src.Dto.Course
             Teacher = course.TeacherId != null ? new CourseTeacherDto
             {
                 Id = course.Teacher?.Id,
-                TeacherName = course.Teacher.Name
+                TeacherName = course.Teacher?.Name
             } : null;
         }
     }

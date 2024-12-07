@@ -14,13 +14,13 @@ namespace SchoolWebApi.src.Repository.Course
             if(input.TeacherId != null)
             {
                 var foundedTeacher = await _context.Teachers.FindAsync(input.TeacherId);
-                if (foundedTeacher != null)
+                if (foundedTeacher == null)
                     throw new Exception("teacher with this id not found");
             }
             if (input.SchoolId != null)
             {
                 var foundedSchool = await _context.Schools.FindAsync(input.SchoolId);
-                if (foundedSchool != null)
+                if (foundedSchool == null)
                     throw new Exception("school with this id not found");
             }
             Model.Course course = new Model.Course(input.Name, input.SchoolId, input.TeacherId);
@@ -43,13 +43,20 @@ namespace SchoolWebApi.src.Repository.Course
         public IQueryable<Model.Course> Get()
         {
             var res = _context.Courses
+                                .Include(c => c.Students)
+                .Include(c => c.Teacher)
+                .Include(c => c.School)
                 .AsQueryable();
             return res;
         }
 
         public async Task<Model.Course?> GetById(long id)
         {
-            var res = await _context.Courses.FirstOrDefaultAsync(c => c.Id == id);
+            var res = await _context.Courses
+                .Include(c => c.Students)
+                .Include(c => c.Teacher)
+                .Include(c => c.School)
+                .FirstOrDefaultAsync(c => c.Id == id);
             return res;
         }
 
@@ -62,14 +69,14 @@ namespace SchoolWebApi.src.Repository.Course
             if (input.TeacherId != null)
             {
                 var foundedTeacher = await _context.Teachers.FindAsync(input.TeacherId);
-                if (foundedTeacher != null)
+                if (foundedTeacher == null)
                     throw new Exception("teacher with this id not found");
                 foundedCourse.TeacherId = input.TeacherId;
             }
-            if (input.SchoolId != null)
+            if (input.SchoolId == null)
             {
                 var foundedSchool = await _context.Schools.FindAsync(input.SchoolId);
-                if (foundedSchool != null)
+                if (foundedSchool == null)
                     throw new Exception("school with this id not found");
                 foundedCourse.SchoolId = input.SchoolId;
             }
